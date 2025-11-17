@@ -3,6 +3,7 @@ import logging
 
 from aiogram import Bot, Dispatcher
 from config.config import Config, load_config
+from handlers import user, other
 
 
 # конфигурация и запуск бота
@@ -19,6 +20,9 @@ async def main():
     # инициализация бота и диспетчера
     bot = Bot(token=config.bot.token)
     dp = Dispatcher()
+
+    # регистрация роутеров
+    dp.include_routers(user.router, other.router)
 
     # пропускаем накопившееся апдейты
     await bot.delete_webhook(drop_pending_updates=True)
